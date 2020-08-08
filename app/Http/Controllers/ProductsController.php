@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Products;
 use App\Branches;
+use App\ProductsDetail;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMail;
+
 
 
 
@@ -71,7 +73,13 @@ class ProductsController extends Controller
 
     {
         $id = request('p_id');
-    $products = Products::where('id', $id)->get();
+    //$products = Products::where('id', $id)->get();
+    $products = Products::join('products_details', 'products.id','=','products_details.product_id')
+    ->select('products.image','products.image1','products.image2','products.image3',
+            'products_details.specifications','products_details.values')
+    ->where('products.id', $id)
+    ->distinct()
+    ->get();
     return json_encode($products);
     
      }
@@ -102,4 +110,29 @@ class ProductsController extends Controller
      return json_encode($branches);
      
   }
+
+  public function enquiry(Request $request){
+    request()->validate([
+        'title' => ['required','max:255'],
+        'color'  =>'required',
+        'number'  =>'required',
+        'quantity'  =>'required',
+        'place'  =>'required',
+        'email' => 'required|email',
+        'message'  =>'required'
+    ]);
+    $enquiry = [
+        'title' => $request->title,
+        'color' => $request->color,
+        'number' => $request->number,
+        'quantity' => $request->quentity,
+        'place' => $request->place,
+        'email' => $request->email,
+        'message' =>$request->message
+    ];
+    \Mail::to('anasmk0313@gmail.com')->send(new \App\Mail\CorMail($enquiry));
+    return redirect()->back()->with('success', 'Thanks for contacting us!');
+  }
+
+    
 }

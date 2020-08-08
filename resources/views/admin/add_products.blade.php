@@ -1,5 +1,43 @@
 @extends('admin.header')
 @section('content')
+
+<style>
+   .addbt{
+       display:flex;
+       justify-content: space-between;
+   }
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.js"></script>
+
+ <script type='text/javascript'>
+// $(window).load(function(){
+// $(document).ready(function () {
+//     $('.hidediv').hide();
+//     $('#option1').show();
+//     $('#prodop').change(function () {
+//         $('.hidediv').hide();
+//         $('#'+$(this).val()).fadeIn();
+//     });
+// });
+ 
+// });
+</script>
+<script type="text/javascript">
+        function displayResult()
+        {
+            document.getElementById("myTable").insertRow(-1).innerHTML = '<td><input type="text" name="spec[]"  placeholder="Specification" class="form-control" ></td><td><input type="text" name="value[]"  placeholder="Value" class="form-control" ></td>';
+        }
+        function delrow()
+        {
+            document.getElementById("myTable").deleteRow(0);
+        }
+        </script>
+<style>
+    .hidediv{
+        display:none;
+    }
+</style>
+
         <!-- Header-->
 
 
@@ -41,29 +79,36 @@
                                      
                                       </select>
                                     </div> 
-                                    <div class="form-group"><label for="Products" class=" form-control-label">Product Name</label><input type="text" name="p_name" placeholder="Product Name" class="form-control" ></div>
-
-                                    <div class="form-group"><label for="Time" class=" form-control-label">Product Image</label><input type="file" name="p_image" placeholder="Product Image" class="form-control" style="padding-bottom:40px;"></div>
-
-                                      <div class="form-group"><label for="Size" class=" form-control-label">Size</label><input type="text" name="size" placeholder="Product Size" class="form-control" ></div>
-
-                                     <div class="form-group"><label for="Weight" class=" form-control-label">Weight</label><input type="text" name="weight" placeholder="Weight" class="form-control" ></div>
-
-                                     <div class="form-group"><label for="Thickness" class=" form-control-label">Thickness</label><input type="text" name="thickness" placeholder="Thickness" class="form-control" ></div>
-
-                                    <div class="form-group"><label for="Water Absorption" class=" form-control-label">Water Absorption</label><textarea  name="water_absorption" placeholder="Water Absorption" class="form-control" ></textarea >
-
-                                         <div class="form-group"><label for="Composition" class=" form-control-label">Composition</label><textarea  name="composition" placeholder="Composition" class="form-control" ></textarea >
-
-                                            <div class="form-group"><label for="Installation" class=" form-control-label">Installation</label><textarea  name="installation" placeholder="Installation" class="form-control" ></textarea >
-
-                                               <div class="form-group"><label for="Working Life" class=" form-control-label">Working Life</label><textarea  name="working_life" placeholder="Working Life" class="form-control" ></textarea >
-
                                    
-                                            
-                                      <div class="form-group"><input type="submit" name="submit1" id="submit1" placeholder="Exam In Minutes" class="btn btn-success" value="Add Product"></div>
                                         
+                                        <!-- options-->
+                                        
+                                            
+                                            <div class="form-group"><label for="Products" class=" form-control-label">Product Name</label><input type="text" name="p_name" placeholder="Product Name" class="form-control" ></div>
+
+                                    <div class="form-group"><label for="Time" class=" form-control-label">Product Image</label><input type="file" name="p_image1" placeholder="Product Image" class="form-control" style="padding-bottom:40px;"><br>
+                                    <input type="file" name="p_image2" placeholder="Product Image" class="form-control" style="padding-bottom:40px;"><br>
+                                    <input type="file" name="p_image3" placeholder="Product Image" class="form-control" style="padding-bottom:40px;"><br>
+                                    <input type="file" name="p_image4" placeholder="Product Image" class="form-control" style="padding-bottom:40px;"></div>
+                                    
+                                            <div class="form-group pt-3 addbt">
+                                                <button class="btn btn-success" type="button" onclick="displayResult()">Insert new row</button> 
+                                                <button class="btn btn-danger align-right" type="button" onclick="delrow()">Delete row</button> 
                                             </div>
+                                            
+                                            <div class=" table-responsive">
+                                            <table class="table" id="myTable">
+                                                <tr>
+                                                    <td><input type="text" name="spec[]"  placeholder="Specification" class="form-control" ></td>
+                                                    <td><input type="text" name="value[]"  placeholder="Value" class="form-control" ></td>
+                                                </tr>
+                                            </table>
+                                            </div>
+                                            <div class="form-group pt-3"><input type="submit" name="" id="" class="btn btn-success" value="Add Product"></div>
+                                            
+                                        
+                                        
+                                    </div>
 
                                  </div>
                             
@@ -80,8 +125,9 @@
 
 <!-- 
                    
-                     /.col-->
+                    /.col-->
                                           
+                                       
 
 @if(Session::has('productAdd'))
     

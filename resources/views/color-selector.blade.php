@@ -77,27 +77,29 @@
         <img src="{{$product_details->image}}" alt="">
     </div>
 </div>
+
+
 <div class="col-md-5 col-sm-4 col-xs-12">
     <div class="about-content p-0">
         <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="about-image">
-                    <img src="img/adv.jpg" alt="">
+                    <img src="{{ asset('storage/images/products/'.$product_details->image) }}" alt="">
                 </div>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="about-image">
-                    <img src="img/adv.jpg" alt="">
+                    <img src="{{ asset('storage/images/products/'.$product_details->image1) }}" alt="">
                 </div>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="about-image">
-                    <img src="img/adv.jpg" alt="">
+                    <img src="{{ asset('storage/images/products/'.$product_details->image2) }}" alt="">
                 </div>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="about-image">
-                    <img src="img/adv.jpg" alt="">
+                    <img src="{{ asset('storage/images/products/'.$product_details->image3) }}" alt="">
                 </div>
             </div>
         </div>
@@ -109,8 +111,10 @@
 </div>
 </div>
    </div>
+@endforeach
 
-        
+      
+     
           <div class="about-area area-padding">
     <div class="container">
         <div class="row pspec">
@@ -121,62 +125,17 @@
             <div class="col-md-8">
 
             <div id="p_details1">
+            @foreach($product_detail as $product_detail)
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6 left">
-                        <p>Size</p>
+                        <p>{{ $product_detail->specifications }}</p>
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-6 right">
-                        <p>{{$product_details->size}}</p>
+                        <p>{{ $product_detail->values }}</p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6 left">
-                        <p>Weight/Pc</p>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6 right">
-                        <p>{{$product_details->weight}}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6 left">
-                        <p>Thickness</p>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6 right">
-                        <p>{{$product_details->thickness}}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6 left">
-                        <p>Water Absorption</p>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6 right">
-                        <p>{{$product_details->water_absorption}}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6 left">
-                        <p>Composition</p>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6 right">
-                        <p>{{$product_details->composition}}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6 left">
-                        <p>Installation</p>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6 right">
-                        <p>{{$product_details->installation}}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6 left">
-                        <p>Working life</p>
-                    </div>
-                    <div class="col-md-6 col-sm-6 col-xs-6 right">
-                        <p>{{$product_details->working_life}}</p>
-                    </div>
-                </div>
+
+            @endforeach
            </div>
     
            </div>
@@ -184,7 +143,6 @@
 </div>
 </div>
 </div>
-@endforeach
 @endsection
 
 
@@ -209,7 +167,8 @@
                 $.each(resultData,function(index,row){
                     bodyData+="<div class='row' id='"+row.id+"' onClick='myFun(this.id)'>"
                     bodyData+= "<div class='col-md-4 col-sm-4 col-xs-4'>"
-                    bodyData+= "<img class='floatleft' src='/"+row.image+"'>";
+                    //bodyData+= "<img class='floatleft' src='/"+row.image+"'>";
+                    bodyData+= "<img class='floatleft' src='{{ asset("storage/images/products/") }}/"+row.image+"'>";
                     bodyData+=  "</div>";
                     bodyData+=" <div class='col-md-8 col-sm-8 col-xs-8 p-0'>"
                     bodyData+=row.title;               
@@ -248,9 +207,10 @@
                 $.each(resultData,function(index,row){
                     bodyData+="<div class='row'   id='"+row.id+"' onClick='myFun(this.id)'>"
                     bodyData+= "<div class='col-md-4 col-sm-4 col-xs-4'>"
-                    bodyData+= "<img class='floatleft' src='/"+row.image+"'>";
+                    //bodyData+= "<img class='floatleft' src='/"+row.image+"'>";
+                    bodyData+= "<img class='floatleft' src='{{ asset("storage/images/products/") }}/"+row.image+"'>";
                     bodyData+=  "</div>";
-                    bodyData+=" <div class='col-md-8 col-sm-8 col-xs-8 p-0'>"
+                    bodyData+=" <div class='col-md-8 col-sm-8 col-xs-8 p-0'>";
                     bodyData+=row.title ;               
                     bodyData+="</div>";
                     bodyData+="</div>";
@@ -277,23 +237,21 @@
                 var resultData = JSON.parse(dataResult);
                 var bodyData = '';
                 var bodyData1 = '';
-                
-                                        
+                                     
+                                   
                 $.each(resultData,function(index,row){
                    
+                bodyData+='<div class="col-md-4 col-sm-3 col-xs-6"> <div class="about-image"><img src="{{ asset('storage/images/products/') }}/'+row.image+'" alt=""></div></div> <div class="col-md-5 col-sm-4 col-xs-12"> <div class="about-content p-0"><div class="row">'
+                bodyData+='<div class="col-md-6 col-sm-6 col-xs-12"><div class="about-image"><img src="{{ asset('storage/images/products/') }}/'+row.image+'" alt=""></div></div><div class="col-md-6 col-sm-6 col-xs-12"><div class="about-image"><img src="{{ asset('storage/images/products/') }}/'+row.image1+'" alt=""> </div> </div>';
+                bodyData+='<div class="col-md-6 col-sm-6 col-xs-12"><div class="about-image"><img src="{{ asset('storage/images/products/') }}/'+row.image2+'" alt=""></div></div><div class="col-md-6 col-sm-6 col-xs-12"><div class="about-image"><img src="{{ asset('storage/images/products/') }}/'+row.image3+'" alt=""> </div> </div></div></div> </div>';
+                
 
-                    bodyData+='<div class="col-md-4 col-sm-3 col-xs-6"> <div class="about-image"><img src="/'+row.image+'" alt=""></div></div> <div class="col-md-5 col-sm-4 col-xs-12"> <div class="about-content p-0"><div class="row">'
-                    bodyData+='<div class="col-md-6 col-sm-6 col-xs-12"><div class="about-image"><img src="img/adv.jpg" alt=""></div></div><div class="col-md-6 col-sm-6 col-xs-12"><div class="about-image"><img src="img/adv.jpg" alt=""> </div> </div>';
-                    bodyData+='<div class="col-md-6 col-sm-6 col-xs-12"><div class="about-image"><img src="img/adv.jpg" alt=""></div></div><div class="col-md-6 col-sm-6 col-xs-12"><div class="about-image"><img src="img/adv.jpg" alt=""> </div> </div></div></div> </div>';
-                   
-                   
-
-                bodyData1+=' <div class="row">  <div class="col-md-6 col-sm-6 col-xs-6 left"> <p>Size</p> </div><div class="col-md-6 col-sm-6 col-xs-6 right"><p>'+row.water_absorption+'</p></div></div>';
-                bodyData1+='<div class="row">  <div class="col-md-6 col-sm-6 col-xs-6 left"> <p>Weight/Pc</p> </div><div class="col-md-6 col-sm-6 col-xs-6 right"><p>'+row.weight+'</p></div></div><div class="row">  <div class="col-md-6 col-sm-6 col-xs-6 left"> <p>Thickness</p> </div><div class="col-md-6 col-sm-6 col-xs-6 right"><p>'+row.thickness+'</p></div></div>';
-                bodyData1+='<div class="row">  <div class="col-md-6 col-sm-6 col-xs-6 left"> <p>Water Absorption</p> </div><div class="col-md-6 col-sm-6 col-xs-6 right"><p>'+row.water_absorption+'</p></div></div><div class="row">  <div class="col-md-6 col-sm-6 col-xs-6 left"> <p>Composition</p> </div><div class="col-md-6 col-sm-6 col-xs-6 right"><p>'+row.composition+'</p></div></div>';
-                bodyData1+='<div class="row">  <div class="col-md-6 col-sm-6 col-xs-6 left"> <p>Installation</p> </div><div class="col-md-6 col-sm-6 col-xs-6 right"><p>'+row.installation+'</p></div></div><div class="row">  <div class="col-md-6 col-sm-6 col-xs-6 left"> <p>Working life</p> </div><div class="col-md-6 col-sm-6 col-xs-6 right"><p>'+row.working_life+'</p></div></div>';
+                bodyData1+=' <div class="row">  <div class="col-md-6 col-sm-6 col-xs-6 left"> <p>'+row.specifications+'</p> </div><div class="col-md-6 col-sm-6 col-xs-6 right"><p>'+row.values+'</p></div></div>';
+                //bodyData1+='<div class="row">  <div class="col-md-6 col-sm-6 col-xs-6 left"> <p>Weight/Pc</p> </div><div class="col-md-6 col-sm-6 col-xs-6 right"><p>'+row.weight+'</p></div></div><div class="row">  <div class="col-md-6 col-sm-6 col-xs-6 left"> <p>Thickness</p> </div><div class="col-md-6 col-sm-6 col-xs-6 right"><p>'+row.thickness+'</p></div></div>';
+                //bodyData1+='<div class="row">  <div class="col-md-6 col-sm-6 col-xs-6 left"> <p>Water Absorption</p> </div><div class="col-md-6 col-sm-6 col-xs-6 right"><p>'+row.water_absorption+'</p></div></div><div class="row">  <div class="col-md-6 col-sm-6 col-xs-6 left"> <p>Composition</p> </div><div class="col-md-6 col-sm-6 col-xs-6 right"><p>'+row.composition+'</p></div></div>';
+                //bodyData1+='<div class="row">  <div class="col-md-6 col-sm-6 col-xs-6 left"> <p>Installation</p> </div><div class="col-md-6 col-sm-6 col-xs-6 right"><p>'+row.installation+'</p></div></div><div class="row">  <div class="col-md-6 col-sm-6 col-xs-6 left"> <p>Working life</p> </div><div class="col-md-6 col-sm-6 col-xs-6 right"><p>'+row.working_life+'</p></div></div>';
 //         
-                    
+              
                 })
                 $("#p_details").html(bodyData);
                 $("#p_details1").html(bodyData1);

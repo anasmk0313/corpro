@@ -172,7 +172,7 @@
                         <div class="contact-form">
                             <div class="row">
                                 <form method="post" action="/enquiry" class="contact-form">
-                                @csrf
+                                    @csrf
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <input type="text" class="form-control" placeholder="Name" name="title" value="{{old('title')}}" >
                                         @error("title")

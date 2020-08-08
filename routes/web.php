@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get("/","HomeController@index");
 
 
+Route::post('/enquiry', 'ProductsController@enquiry');
+
 Route::get('/about', "HomeController@about");
 Route::get('/gallery', "HomeController@gallery");
 
@@ -55,6 +57,7 @@ Route::resource("category", "CategoryController");
 Route::resource("product", "AdminProductsController");
 Route::resource("slider", "SliderController");
 Route::resource("branch", "BranchController");
+Route::delete("productdelete", "AdminProductsController@delete");
 
 
 

@@ -17,18 +17,15 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string("title");
             $table->string("category");
-            $table->string("size");
-            $table->string("weight");
-            $table->string("thickness");
-            $table->string("water_absorption");
-            $table->text("composition");
-            $table->text("installation");
-            $table->text("working_life");
+            $table->string('image');
+            $table->string('image1');
+            $table->string('image2');
+            $table->string('image3');
             $table->timestamps();
         });
     }
 
-    /**
+    /*
             $table->timestamps();
         });
     }

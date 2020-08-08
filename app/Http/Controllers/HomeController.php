@@ -8,6 +8,7 @@ use App\Category;
 use App\Slider;
 use App\Branches;
 use Illuminate\Support\Facades\DB;
+use App\ProductsDetail;
 
 class HomeController extends Controller
 {
@@ -94,6 +95,7 @@ class HomeController extends Controller
         ->distinct()
         ->getQuery() 
         ->get();
+        $data['product_detail'] = ProductsDetail::get();
 
         return view("color-selector",$data);
 

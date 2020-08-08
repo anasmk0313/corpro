@@ -108,7 +108,7 @@
                             <div class="single-awesome-project">
                                 <div class="awesome-img">
                                     <a class="venobox" data-gall="myGallery" href="{{$products->image}}">
-                                        <img src="{{$products->image}}" alt="" />
+                                        <img src="{{ asset('storage/images/products/'.$products->image) }}" alt="" />
                                         <p>{{$products->title}}</p>
                                         <div class="add-actions text-center">
                                             <div class="project-dec">

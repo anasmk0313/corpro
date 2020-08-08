@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Category;
 use App\Products;
 use Illuminate\Support\Facades\DB;
+use App\ProductsDetail;
 
 class AdminProductsController extends Controller
 {
@@ -43,26 +44,68 @@ class AdminProductsController extends Controller
      */
     public function store(Request $request)
     {
-        if(isset($request->image) && $request->image->getClientOriginalName()){
-            $imgname = $request->image->getClientOriginalName();
-            $request->image->storeAs('public/images/products', $imgname);
+        if(isset($request->p_image1) && $request->p_image1->getClientOriginalName()){
+            $imgname1 = $request->p_image1->getClientOriginalName();
+            $request->p_image1->storeAs('public/images/products', $imgname1);
         }
         else{
-            $imgname = '';
+            $imgname1 = '';
+        }
+        if(isset($request->p_image2) && $request->p_image2->getClientOriginalName()){
+            $imgname2 = $request->p_image2->getClientOriginalName();
+            $request->p_image2->storeAs('public/images/products', $imgname2);
+        }
+        else{
+            $imgname2 = '';
+        }
+        if(isset($request->p_image3) && $request->p_image3->getClientOriginalName()){
+            $imgname3 = $request->p_image3->getClientOriginalName();
+            $request->p_image3->storeAs('public/images/products', $imgname3);
+        }
+        else{
+            $imgname3 = '';
+        }
+        if(isset($request->p_image4) && $request->p_image4->getClientOriginalName()){
+            $imgname4 = $request->p_image4->getClientOriginalName();
+            $request->p_image4->storeAs('public/images/products', $imgname4);
+        }
+        else{
+            $imgname4 = '';
         }
         $products = new Products;
         $products->category_id = $request->category;
         $products->title = $request->p_name;
-        $products->image = $imgname;
-        $products->size = $request->size;
-        $products->weight = $request->weight;
-        $products->thickness = $request->thickness;
-        $products->water_absorption = $request->water_absorption;
-        $products->composition = $request->composition;
-        $products->installation = $request->installation;
-        $products->working_life = $request->working_life;
+        $products->image = $imgname1;
+        $products->image1 = $imgname2;
+        $products->image2 = $imgname3;
+        $products->image3 = $imgname4;
         $products->save();
+
+        $p_name = $request->p_name;
+        $category_id = $request->category;
+
+        $product_id = DB::select('select id from products where title = ? and category_id = ?',[$p_name,$category_id]);
+        
+        $specification = $request->spec;
+        $value = $request->value;
+
+        foreach($product_id as $product_id){
+            $id = $product_id->id;
+        }
+
+        for($i=0; $i<count($specification) && $i<count($value); $i++){
+            $data = array(
+                'product_id' => $id,
+                'specifications' => $specification[$i],
+                'values' => $value[$i]
+            );
+            $insert_data[] = $data;
+        }
+        
+        ProductsDetail::insert($insert_data);
+
         return redirect()->back()->with('productAdd', 'Product added successfully');
+        
     }
 
     /**
@@ -73,7 +116,7 @@ class AdminProductsController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -87,10 +130,12 @@ class AdminProductsController extends Controller
         if(!session()->has('data')){
             return redirect('index');
         }else{
-            $category['category'] = Category::all();
-            $products['product'] = Products::all()
+            $category = Category::all();
+            $products = Products::all()
             ->where('id', $id);
-            return view('admin.edit_products', $category, $products);
+            $product_details = ProductsDetail::all()
+            ->where('product_id', $id);
+            return view('admin.edit_products', compact('category', 'products', 'product_details'));
         }
     }
 
@@ -101,27 +146,72 @@ class AdminProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Products $product)
+    public function update(Request $request, $id)
     {
-        if(isset($request->image) && $request->image->getClientOriginalName()){
-            $imgname = $request->image->getClientOriginalName();
-            $request->image->storeAs('public/images/products', $imgname);
+        if(isset($request->p_image1) && $request->p_image1->getClientOriginalName()){
+            $imgname1 = $request->p_image1->getClientOriginalName();
+            $request->p_image1->storeAs('public/images/products', $imgname1);
         }
         else{
-            $imgname = '';
+            $img = DB::select('select image from products where id = ?', [$id]);
+            foreach($img as $img){
+                $imgname1 = $img->image;
+            }
         }
+        if(isset($request->p_image2) && $request->p_image2->getClientOriginalName()){
+            $imgname2 = $request->p_image2->getClientOriginalName();
+            $request->p_image2->storeAs('public/images/products', $imgname2);
+        }
+        else{
+            $img = DB::select('select image1 from products where id = ?', [$id]);
+            foreach($img as $img){
+                $imgname2 = $img->image1;
+            }
+        }
+        if(isset($request->p_image3) && $request->p_image3->getClientOriginalName()){
+            $imgname3 = $request->p_image3->getClientOriginalName();
+            $request->p_image3->storeAs('public/images/products', $imgname3);
+        }
+        else{
+            $img = DB::select('select image2 from products where id = ?', [$id]);
+            foreach($img as $img){
+                $imgname3 = $img->image2;
+            }
+        }
+        if(isset($request->p_image4) && $request->p_image4->getClientOriginalName()){
+            $imgname4 = $request->p_image4->getClientOriginalName();
+            $request->p_image4->storeAs('public/images/products', $imgname4);
+        }
+        else{
+            $img = DB::select('select image3 from products where id = ?', [$id]);
+            foreach($img as $img){
+                $imgname4 = $img->image3;
+            }
+        }
+        Products::where('id', $id)
+        ->update([
+            'title'     => $request->p_name,
+            'image'     => $imgname1,
+            'image1'    => $imgname2,
+            'image2'    => $imgname3,
+            'image3'    => $imgname4,
+        ]);
         
-        $product->category_id = $request->category;
-        $product->title = $request->title;
-        $product->image = $imgname;
-        $product->size = $request->size;
-        $product->weight = $request->weight;
-        $product->thickness = $request->thickness;
-        $product->water_absorption = $request->water_absorption;
-        $product->composition = $request->composition;
-        $product->installation = $request->installation;
-        $product->working_life = $request->working_life;
-        $product->save();
+        $specification = $request->spec;
+        $value = $request->value;
+        $product_details_id = $request->id;
+
+        for($i=0; $i<count($specification) && $i<count($value); $i++){
+            $details_id = $product_details_id[$i];
+            $specifications = $specification[$i];
+            $values = $value[$i]; 
+            ProductsDetail::where('id', $details_id)
+            ->update([
+                'specifications' => $specifications,
+                'values' =>$values
+                ]);
+        
+        }
         return redirect()->route('product.create')->with('productUpdate', 'Product Updated Successfully');
     }
 
@@ -134,6 +224,9 @@ class AdminProductsController extends Controller
     public function destroy($id)
     {
         Products::destroy($id);
+        ProductsDetail::where('product_id', $id)
+        ->delete();
         return redirect()->back();
     }
+
 }

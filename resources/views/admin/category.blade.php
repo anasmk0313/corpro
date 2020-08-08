@@ -78,7 +78,7 @@
                             </div>
                         </div>
                     </div>
-                     </div>     
+                     </div>      
 
     @if(Session::has('categoryAdd'))
         <script type="text/javascript">
